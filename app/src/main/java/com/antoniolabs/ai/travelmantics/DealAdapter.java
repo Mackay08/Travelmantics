@@ -1,10 +1,12 @@
 package com.antoniolabs.ai.travelmantics;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.database.ChildEventListener;
@@ -83,19 +85,34 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
         return dealArrayList.size();
     }
 
-    public class DealViewHolder extends RecyclerView.ViewHolder {
+    public class DealViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        TextView tvTitle;
+        TextView tvTitle, tvPrice, tvDescription;
+        ImageView imageDeal;
 
         public DealViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTitle = itemView.findViewById(R.id.tvTitle);
+            tvPrice = itemView.findViewById(R.id.tvPrice);
+            tvDescription = itemView.findViewById(R.id.tvDescription);
+            itemView.setOnClickListener(this);
         }
 
         public void bind(TravelDeal deal) {
             tvTitle.setText(deal.getTitle());
+            tvPrice.setText(deal.getPrice());
+            tvDescription.setText(deal.getDescription());
         }
 
 
+        @Override
+        public void onClick(View v) {
+            int position = getAdapterPosition();
+            Log.d("Click", String.valueOf(position));
+            TravelDeal selectedDeal = dealArrayList.get(position);
+            Intent i = new Intent(v.getContext(), DealActivity.class);
+            i.putExtra("Deal", selectedDeal);
+            v.getContext().startActivity(i);
+        }
     }
 }

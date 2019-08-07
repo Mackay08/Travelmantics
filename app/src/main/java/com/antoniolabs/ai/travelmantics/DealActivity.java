@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.StorageReference;
@@ -109,17 +110,24 @@ public class DealActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICTURE_RESULT && resultCode == RESULT_OK) {
             Uri imageUri = data.getData();
-            StorageReference ref = FirebaseUtil.mStorageRef.child(imageUri.getLastPathSegment());
+            final StorageReference ref = FirebaseUtil.mStorageRef.child(imageUri.getLastPathSegment());
             ref.putFile(imageUri).addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    String url = taskSnapshot.getStorage().getDownloadUrl().toString();
-                    String pictureName = taskSnapshot.getStorage().getPath();
-                    deal.setImageUrl(url);
-                    deal.setImageName(pictureName);
-                    Log.d("Url: ", url);
-                    Log.d("Name", pictureName);
-                    showImage(url);
+                    ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            deal.setImageUrl(uri.toString());
+                            showImage(deal.getImageUrl());
+                        }
+                    });
+                    //String url = taskSnapshot.getStorage().getDownloadUrl().toString();
+                    //String pictureName = taskSnapshot.getStorage().getPath();
+                    //deal.setImageUrl(url);
+                    deal.setImageName(taskSnapshot.getStorage().getPath());
+                    //Log.d("Url: ", url);
+                    //Log.d("Name", pictureName);
+                    //showImage(url);
                 }
             });
 

@@ -76,6 +76,10 @@ public class FirebaseUtil {
                 RC_SIGN_IN);
     }
 
+    public static void gSignIn(){
+
+    }
+
     public static void attachListener(){
         mFirebaseAuth.addAuthStateListener(mAuthStateListener);
     }

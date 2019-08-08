@@ -22,6 +22,7 @@
         android:layout_marginStart="@dimen/txt_margin_standard"
         android:layout_marginTop="@dimen/txt_margin_standard"
         android:text="TextView"
+        android:textColor="#FC000000"
         android:textSize="@dimen/title_large"
         app:layout_constraintStart_toEndOf="@+id/imageDeal"
         app:layout_constraintTop_toTopOf="parent"/>
@@ -33,6 +34,7 @@
         android:layout_marginStart="@dimen/txt_margin_standard"
         android:layout_marginTop="@dimen/txt_margin_standard"
         android:text="TextView"
+        android:textColor="#000000"
         app:layout_constraintStart_toEndOf="@+id/imageDeal"
         app:layout_constraintTop_toBottomOf="@+id/tvTitle"/>
 
